@@ -1,4 +1,6 @@
-#include <iostream> 
+#include <iostream>
+#include <string> 
+#include "funcs.h"
 #include "time.h"
 #include "movie.h"
 #include "timeslot.h"
@@ -50,9 +52,9 @@ void printMovie(Movie mv)
 	std::cout << mv.title << " " << g << " (" << mv.duration << " min)";
 }
 
-std::string getTimeSlot(TimeSlot.ts)
+std::string getTimeSlot(TimeSlot ts)
 {
-  //getting movie 
+    //getting movie 
   Movie data = ts.movie;
 
   //getting starting time 
@@ -72,11 +74,28 @@ std::string getTimeSlot(TimeSlot.ts)
 		case DRAMA : g = "DRAMA"; break;
 		case ROMANCE : g = "ROMANCE"; break;
 		case THRILLER : g = "THRILLER"; break;
-    
-  std::string output = data.title + " " + g + " (" + std::to_string(data.duration) + ") " + "[starts at " + startTS + ", end by " + endTS;
+  }
+  std::string output = data.title + " " + g + " (" + std::to_string(data.duration) + ") " + "[starts at " + startTS + ", end by " + endTS + " ]";
   return output;
 }
-  
+TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie)
+{
+  Movie dataM = ts.movie;
+  Time endT = addMinutes(ts.startTime, dataM.duration);
+  TimeSlot next = {nextMovie, endT};
+	return next;
+}
+
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2)
+{
+  Movie m1 = ts1.movie;
+  Time endT = addMinutes(ts1.startTime, m1.duration);
+  if(minutesUntil(ts1.startTime, endT) > minutesUntil(ts1.startTime, ts2.startTime))
+	{
+		return true;
+	}
+	return false;
+}
 
 
   
